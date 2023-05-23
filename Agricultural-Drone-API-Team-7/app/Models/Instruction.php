@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Instruction extends Model
 {
     use HasFactory;
+    protected $fillable =[
+        "drone_id",
+        "plane_id"
+    ];
 }

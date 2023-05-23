@@ -19,9 +19,9 @@ return new class extends Migration
             $table->integer('max_range');
             $table->integer('max_speed');
             $table->integer('payload');
-            $table->unsignedBigInteger('farmer_id');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('drone_type_id');
-            $table->foreign('farmer_id')->references('id')->on('farmers')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('drone_type_id')->references('id')->on('drone_types')->onDelete('cascade');
             $table->timestamps();
         });

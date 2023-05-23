@@ -19,8 +19,10 @@ return new class extends Migration
             $table->string('area');
             $table->unsignedBigInteger('plan_type_id');
             $table->unsignedBigInteger('farm_id');
+            $table->unsignedBigInteger('user_id');
             $table->foreign('plan_type_id')->references('id')->on('drone_types')->onDelete('cascade');
             $table->foreign('farm_id')->references('id')->on('farms')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
