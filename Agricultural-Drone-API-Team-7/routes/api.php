@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\DroneTypeController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\DroneController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,5 +20,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::resource('drones', DroneController::class);
+    Route::post('/logout', [AuthenticationController::class, 'logout']);
+});
+
 Route::resource('/droneType', DroneTypeController::class);
 Route::resource('/province', ProvinceController::class);
+Route::resource('user', UserController::class);
+Route::post('/register', [AuthenticationController::class, 'register']);
+Route::post('/login', [AuthenticationController::class, 'login']);
