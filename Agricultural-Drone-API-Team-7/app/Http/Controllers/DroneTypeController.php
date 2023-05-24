@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\DroneTypeResource;
 use App\Models\DroneType;
 use Illuminate\Http\Request;
 
@@ -13,6 +14,13 @@ class DroneTypeController extends Controller
     public function index()
     {
         //
+        $droneTypes = DroneType::all();
+        $droneTypes = DroneTypeResource::collection($droneTypes);
+
+        return response()->json([
+            'massage' => 'Successfully',
+            'data' => $droneTypes
+        ]);
     }
 
     /**
@@ -21,6 +29,7 @@ class DroneTypeController extends Controller
     public function store(Request $request)
     {
         //
+        
     }
 
     /**

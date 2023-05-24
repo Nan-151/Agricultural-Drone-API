@@ -10,7 +10,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Plan extends Model
 {
     use HasFactory;
-    protected $fillable =[
+    protected $fillable =
+    [
         "name",
         "date",
         "time",
@@ -26,15 +27,18 @@ class Plan extends Model
         return $this->belongsToMany(Instruction::class, 'instructions');
     }
 
-    public function planType():HasOne{
+    public function planType():HasOne
+    {
         return $this->hasOne(PlanType::class);
     }
 
-    public function farm():BelongsTo{
+    public function farm():BelongsTo
+    {
         return $this->belongsTo(Farm::class);
     }
 
-    public function user():BelongsTo{
+    public function user():BelongsTo
+    {
         return $this->belongsTo(User::class);
     }
 }

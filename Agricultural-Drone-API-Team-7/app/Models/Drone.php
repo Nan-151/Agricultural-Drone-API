@@ -11,7 +11,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Drone extends Model
 {
     use HasFactory;
-    protected $fillable=[
+    protected $fillable=
+    [
         "name",
         "battery",
         "max_altitude",
@@ -21,10 +22,12 @@ class Drone extends Model
         "user_id",
         "drone_type_id",
     ];
-    public function user():BelongsTo{
+    public function user():BelongsTo
+    {
         return $this -> belongsTo(User::class);
     }
-    public function droneType():HasOne{
+    public function droneType():HasOne
+    {
         return $this -> hasOne(DroneType::class);
     }
 
@@ -33,11 +36,13 @@ class Drone extends Model
         return $this->belongsToMany(Instruction::class, 'instructions');
     }
 
-    public function location():HasMany{
+    public function location():HasMany
+    {
         return $this->hasMany(Location::class);
     }
 
-    public function map():HasMany{
+    public function map():HasMany
+    {
         return $this->hasMany(Map::class);
     }
 

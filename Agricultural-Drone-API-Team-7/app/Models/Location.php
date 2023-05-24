@@ -9,13 +9,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Location extends Model
 {
     use HasFactory;
-    protected $fillable =[
+    protected $fillable =
+    [
         "longitude",
         "latitude",
         "drone_id",
     ];
 
-    public function drone():BelongsTo{
+    public function drone():BelongsTo
+    {
         return $this->belongsTo(Drone::class);
     }
     

@@ -9,17 +9,20 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Map extends Model
 {
     use HasFactory;
-    protected $fillable =[
+    protected $fillable =
+    [
         "image",
         "date",
         "drone_id",
         "farm_id",
     ];
 
-    public function drone():BelongsTo{
+    public function drone():BelongsTo
+    {
         return $this -> belongsTo(Drone::class);
     }
-    public function farm():BelongsTo{
+    public function farm():BelongsTo
+    {
         return $this -> belongsTo(Farm::class);
     }
 }
