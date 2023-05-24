@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PlanRequest;
 use App\Models\Plan;
 use Illuminate\Http\Request;
 
@@ -18,9 +19,23 @@ class PlanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PlanRequest $request)
     {
-        //
+        $plan = Plan::create([
+            "name" => $request->name,
+            "date" => $request->date,
+            "time" => $request->time,
+            "area" => $request->area,
+            "plan_type_id" => $request->plan_type_id,
+            "farm_id" => $request->farm_id,
+            "user_id" => $request->user_id,
+
+        ]);
+        return response()->json([
+            "success"=> true,
+            "message"=>"Create Plan successfull",
+            'data' => $plan
+        ],200);
     }
 
     /**
@@ -34,9 +49,22 @@ class PlanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Plan $plan)
+    public function update(PlanRequest $request, $id)
     {
-        //
+        $plan = Plan::find($id)->update([
+            "name" => $request->name,
+            "date" => $request->date,
+            "time" => $request->time,
+            "area" => $request->area,
+            "plan_type_id" => $request->plan_type_id,
+            "farm_id" => $request->farm_id,
+            "user_id" => $request->user_id,
+        ]);
+        return response()->json([
+            "success"=> true,
+            "message"=>"Update Plan successfull",
+            'data' => $plan
+        ],200);
     }
 
     /**

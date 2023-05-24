@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\InstructionRequest;
 use App\Models\Instruction;
 use Illuminate\Http\Request;
 
@@ -18,9 +19,18 @@ class InstructionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(InstructionRequest $request)
     {
-        //
+        $instruction = Instruction::create([
+            "status" => $request->status,
+            "drone_id" => $request->drone_id,
+            "plan_id" => $request->plan_id,
+        ]);
+        return response()->json([
+            "success"=> true,
+            "message"=>"Create Instruction successfull",
+            'data' => $instruction
+        ],200);
     }
 
     /**
@@ -34,9 +44,18 @@ class InstructionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Instruction $instruction)
+    public function update(InstructionRequest $request, $id)
     {
-        //
+        $instruction = Instruction::find($id)->update([
+            "status" => $request->status,
+            "drone_id" => $request->drone_id,
+            "plan_id" => $request->plan_id,
+        ]);
+        return response()->json([
+            "success"=> true,
+            "message"=>"Update Instruction successfull",
+            'data' => $instruction
+        ],200);
     }
 
     /**

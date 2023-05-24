@@ -3,6 +3,9 @@
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\DroneController;
 use App\Http\Controllers\DroneTypeController;
+use App\Http\Controllers\FarmController;
+use App\Http\Controllers\InstructionController;
+use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -28,6 +31,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 Route::resource('/droneType', DroneTypeController::class);
+Route::resource('/instruction', InstructionController::class);
+Route::resource('/plan', PlanController::class);
+Route::resource('/farm', FarmController::class);
 Route::resource('/province', ProvinceController::class);
 Route::resource('user', UserController::class);
 Route::post('/register', [AuthenticationController::class, 'register']);

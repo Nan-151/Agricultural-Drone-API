@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FarmRequest;
 use App\Models\Farm;
 use Illuminate\Http\Request;
 
@@ -18,9 +19,17 @@ class FarmController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(FarmRequest $request)
     {
-        //
+        $farm = Farm::create([
+            "farm_name"=>$request->farm_name,
+            "province_id"=>$request->province_id
+        ]);
+        return response()->json([
+            "success"=> true,
+            "message"=>"Create Farm successfull",
+            'data' => $farm
+        ],200);
     }
 
     /**
@@ -34,9 +43,17 @@ class FarmController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Farm $farm)
+    public function update(FarmRequest $request, $id)
     {
-        //
+        $farm = Farm::find($id)->update([
+            "farm_name"=>$request->farm_name,
+            "province_id"=>$request->province_id
+        ]);
+        return response()->json([
+            "success"=> true,
+            "message"=>"Update Farm successfull",
+            'data' => $farm
+        ],200);
     }
 
     /**

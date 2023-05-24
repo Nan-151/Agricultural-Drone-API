@@ -12,6 +12,6 @@ class Instruction extends Model
     [
         "status",
         "drone_id",
-        "plane_id"
+        "plan_id"
     ];
 }
