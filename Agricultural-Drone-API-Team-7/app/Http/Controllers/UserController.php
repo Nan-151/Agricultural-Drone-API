@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -18,7 +19,6 @@ class UserController extends Controller
         $users = UserResource::collection($users);
 
         return response()->json([
-            'massage' => 'Successfully',
             'data' => $users
         ]);
     }
@@ -26,9 +26,13 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        //
+        $user = User::create([
+            'name' => $request -> name,
+            'email' => $request->email,
+            'password' => bcrypt ($request -> password),
+        ]);
     }
 
     /**
