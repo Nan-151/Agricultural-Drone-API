@@ -17,4 +17,8 @@ class DroneType extends Model
         return $this -> belongsTo(Drone::class);
     }
 
+    public function plane():BelongsTo{
+        return $this -> belongsTo(Plan::class);
+    }
+
 }

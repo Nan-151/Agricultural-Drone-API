@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Plan extends Model
 {
@@ -25,8 +26,8 @@ class Plan extends Model
         return $this->belongsToMany(Instruction::class, 'instructions');
     }
 
-    public function planType():BelongsTo{
-        return $this->belongsTo(PlanType::class);
+    public function planType():HasOne{
+        return $this->hasOne(PlanType::class);
     }
 
     public function farm():BelongsTo{
