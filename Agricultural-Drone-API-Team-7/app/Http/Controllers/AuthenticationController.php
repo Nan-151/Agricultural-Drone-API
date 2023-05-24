@@ -20,6 +20,7 @@ class AuthenticationController extends Controller
         ]);
        $token = $user->createToken('API TOKEN', ['select', 'create', 'update', 'delete']);
        return response()->json([
+        "message" =>"Create user successful",
         'user' => $user,
         'token' => $token
     ]);

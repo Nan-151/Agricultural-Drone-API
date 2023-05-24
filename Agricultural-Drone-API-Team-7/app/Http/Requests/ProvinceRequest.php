@@ -27,10 +27,9 @@ class ProvinceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
             'name' => [
                 'required', 
-                Rule::unique('provinces')->ignore($this->id)
+                Rule::unique('provinces')->ignore($this->province)
                 ]
         ];
     }
