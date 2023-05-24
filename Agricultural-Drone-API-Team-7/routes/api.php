@@ -19,10 +19,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware(['auth:sanctum'])->group(function () {
-    
-    // Route::post('/logout', [AuthenticationController::class, 'logout']);
-});
-
-
 Route::resource('/droneType', DroneTypeController::class);
+Route::resource('/province', ProvinceController::class);

@@ -14,7 +14,7 @@ class Province extends Model
         "name"
     ];
 
-    public function farm():HasMany
+    public function farms():HasMany
     {
         return $this->hasMany(Farm::class);
     }

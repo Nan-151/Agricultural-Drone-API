@@ -10,6 +10,7 @@ class Instruction extends Model
     use HasFactory;
     protected $fillable =
     [
+        "status",
         "drone_id",
         "plane_id"
     ];
