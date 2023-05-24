@@ -14,11 +14,13 @@ class Farm extends Model
         "farm_name",
         "province_id"
     ];
-    public function province():BelongsTo{
+    public function province():BelongsTo
+    {
         return $this->belongsTo(Province::class);
     }
 
-    public function map():HasMany{
+    public function map():HasMany
+    {
         return $this->hasMany(Map::class);
     }
 }

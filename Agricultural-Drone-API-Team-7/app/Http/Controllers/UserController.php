@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Farmer;
+use App\Http\Resources\UserResource;
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class FarmerController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,6 +14,13 @@ class FarmerController extends Controller
     public function index()
     {
         //
+        $users = User::all();
+        $users = UserResource::collection($users);
+
+        return response()->json([
+            'massage' => 'Successfully',
+            'data' => $users
+        ]);
     }
 
     /**
@@ -26,7 +34,7 @@ class FarmerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Farmer $farmer)
+    public function show(string $id)
     {
         //
     }
@@ -34,7 +42,7 @@ class FarmerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Farmer $farmer)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -42,7 +50,7 @@ class FarmerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Farmer $farmer)
+    public function destroy(string $id)
     {
         //
     }

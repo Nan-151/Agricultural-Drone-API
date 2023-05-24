@@ -9,11 +9,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Province extends Model
 {
     use HasFactory;
-    protected $fillable =[
+    protected $fillable =
+    [
         "name"
     ];
 
-    public function farm():HasMany{
+    public function farm():HasMany
+    {
         return $this->hasMany(Farm::class);
     }
 }
