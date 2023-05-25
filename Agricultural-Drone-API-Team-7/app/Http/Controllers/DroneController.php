@@ -52,18 +52,16 @@ class DroneController extends Controller
     /**
      * Display the specified resource.
      */
-    // public function searchDrone()
-    // {
-    //     $drone = Auth::user()->drone;
-    //     $drone = request('name');
-    //     $drone = $drone::where('name','like','%'.$drone.'%')->get();
-    //     $drone= DroneResource::collection($drone);
-    //     return response()->json([
-    //         "success"=> true,
-    //         'data' => $drone
-    //     ],200);
+    public function show($name)
+    {
+        $drone = Auth::user()->drone->where('name', $name)->first();
+        $drone= new DroneResource($drone);
+        return response()->json([
+            "success"=> true,
+            'data' => $drone
+        ],200);
 
-    // }
+    }
 
     /**
      * Update the specified resource in storage.
