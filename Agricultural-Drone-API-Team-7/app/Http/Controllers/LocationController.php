@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LocationRequest;
 use App\Http\Resources\LocationResource;
 use App\Models\Location;
 use Illuminate\Http\Request;
@@ -26,9 +27,8 @@ class LocationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(LocationRequest $request)
     {
-        //
         $location = Location::create([
             "longitude" => $request -> longitude,
             "latitude" => $request -> latitude,
@@ -53,9 +53,17 @@ class LocationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Location $location)
+    public function update(LocationRequest $request, $id)
     {
-        //
+        $location = Location::find($id)->update([
+            "longitude" => $request -> longitude,
+            "latitude" => $request -> latitude,
+            "drone_id" => $request -> drone_id,
+        ]);
+        return response()->json([
+            'message' => 'Update location successfully',
+            'data' => $location
+        ]);
     }
 
     /**
