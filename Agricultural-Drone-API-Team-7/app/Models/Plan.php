@@ -27,9 +27,9 @@ class Plan extends Model
         return $this->belongsToMany(Instruction::class, 'instructions');
     }
 
-    public function planType():HasOne
+    public function planType():BelongsTo
     {
-        return $this->hasOne(PlanType::class);
+        return $this->belongsTo(PlanType::class);
     }
 
     public function farm():BelongsTo

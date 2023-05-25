@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class DroneType extends Model
 {
@@ -13,14 +14,14 @@ class DroneType extends Model
         "drone_type"
     ];
 
-    public function drone():BelongsTo
+    public function drone():HasMany
     {
-        return $this -> belongsTo(Drone::class);
+        return $this -> hasMany(Drone::class);
     }
 
-    public function plane():BelongsTo
+    public function plane():HasMany
     {
-        return $this -> belongsTo(Plan::class);
+        return $this -> hasMany(Plan::class);
     }
 
 }

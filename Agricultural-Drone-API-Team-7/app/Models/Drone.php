@@ -26,9 +26,9 @@ class Drone extends Model
     {
         return $this -> belongsTo(User::class);
     }
-    public function droneType():HasOne
+    public function droneType():BelongsTo
     {
-        return $this -> hasOne(DroneType::class);
+        return $this -> belongsTo(DroneType::class);
     }
 
     public function instruction()

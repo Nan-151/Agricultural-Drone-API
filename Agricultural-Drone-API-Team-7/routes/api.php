@@ -26,7 +26,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::resource('drones', DroneController::class);
+    Route::resource('/drones', DroneController::class);
+    Route::get('/searchDrone',[DroneController::class, "searchDrone"]);
     Route::post('/logout', [AuthenticationController::class, 'logout']);
 });
 
@@ -35,6 +36,6 @@ Route::resource('/instruction', InstructionController::class);
 Route::resource('/plan', PlanController::class);
 Route::resource('/farm', FarmController::class);
 Route::resource('/province', ProvinceController::class);
-Route::resource('user', UserController::class);
+Route::resource('/user', UserController::class);
 Route::post('/register', [AuthenticationController::class, 'register']);
 Route::post('/login', [AuthenticationController::class, 'login']);

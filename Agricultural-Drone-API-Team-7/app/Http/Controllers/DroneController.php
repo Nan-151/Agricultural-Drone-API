@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\DroneRequest;
 use App\Http\Resources\DroneResource;
 use App\Models\Drone;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DroneController extends Controller
 {
@@ -14,11 +16,11 @@ class DroneController extends Controller
      */
     public function index()
     {
-        $listDrone = Drone::all();
-        $listDrone = DroneResource::collection($listDrone);
+        $drone = Auth::user()->drone;
+        $drone = DroneResource::collection($drone);
         return response()->json([
             "success"=> true,
-            'data' => $listDrone
+            'data' => $drone
         ],200);
 
     }
@@ -50,10 +52,18 @@ class DroneController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Drone $drone)
-    {
-        //
-    }
+    // public function searchDrone()
+    // {
+    //     $drone = Auth::user()->drone;
+    //     $drone = request('name');
+    //     $drone = $drone::where('name','like','%'.$drone.'%')->get();
+    //     $drone= DroneResource::collection($drone);
+    //     return response()->json([
+    //         "success"=> true,
+    //         'data' => $drone
+    //     ],200);
+
+    // }
 
     /**
      * Update the specified resource in storage.
