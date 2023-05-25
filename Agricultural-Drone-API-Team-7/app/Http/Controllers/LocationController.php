@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\LocationResource;
 use App\Models\Location;
 use Illuminate\Http\Request;
 
@@ -13,6 +14,13 @@ class LocationController extends Controller
     public function index()
     {
         //
+        $locations = Location::all();
+        $locations = LocationResource::collection($locations);
+
+        return response()->json([
+            'message' => 'Successfully',
+            'data' => $locations
+        ]);
     }
 
     /**
@@ -21,6 +29,16 @@ class LocationController extends Controller
     public function store(Request $request)
     {
         //
+        $location = Location::create([
+            "longitude" => $request -> longitude,
+            "latitude" => $request -> latitude,
+            "drone_id" => $request -> drone_id,
+        ]);
+
+        return response()->json([
+            'message' => 'Create new location successfully',
+            'data' => $location
+        ]);
     }
 
     /**
@@ -29,6 +47,7 @@ class LocationController extends Controller
     public function show(Location $location)
     {
         //
+        
     }
 
     /**

@@ -5,6 +5,8 @@ use App\Http\Controllers\DroneController;
 use App\Http\Controllers\DroneTypeController;
 use App\Http\Controllers\FarmController;
 use App\Http\Controllers\InstructionController;
+use App\Http\Controllers\LocationController;
+use App\Http\Controllers\MapController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\UserController;
@@ -30,11 +32,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', [AuthenticationController::class, 'logout']);
 });
 
+Route::post('/register', [AuthenticationController::class, 'register']);
+Route::post('/login', [AuthenticationController::class, 'login']);
+Route::resource('user', UserController::class);
 Route::resource('/droneType', DroneTypeController::class);
 Route::resource('/instruction', InstructionController::class);
 Route::resource('/plan', PlanController::class);
 Route::resource('/farm', FarmController::class);
 Route::resource('/province', ProvinceController::class);
-Route::resource('user', UserController::class);
-Route::post('/register', [AuthenticationController::class, 'register']);
-Route::post('/login', [AuthenticationController::class, 'login']);
+Route::resource('/map', MapController::class);
+Route::resource('/location', LocationController::class);
