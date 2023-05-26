@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CommandDroneRequest;
 use App\Http\Requests\DroneRequest;
 use App\Http\Resources\DroneMapResource;
 use App\Http\Resources\DroneResource;
 use App\Http\Resources\LocationResource;
 use App\Http\Resources\MapResource;
 use App\Models\Drone;
+use App\Models\Instruction;
 use App\Models\Location;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -130,5 +132,21 @@ class DroneController extends Controller
     public function destroy(Drone $drone)
     {
         //
+        
+    }
+    public function commandDrone($name)
+    {
+        $drone = Auth::user()->drone->where('name', $name)->first();
+        $instruction = $drone->map->where("drone_id", 3)->first();
+        // ->update([
+        //     "status" => $request->status,
+        //     "plan_id" => $request->plan_id,
+        // ]);
+        // $drone->instruction;
+        return response()->json([
+            "success"=> true,
+            'data' => "Heloo"
+        ],200);
+        
     }
 }

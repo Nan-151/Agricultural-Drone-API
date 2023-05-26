@@ -6,6 +6,7 @@ use App\Http\Requests\LocationRequest;
 use App\Http\Resources\LocationResource;
 use App\Models\Location;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LocationController extends Controller
 {
@@ -73,4 +74,6 @@ class LocationController extends Controller
     {
         //
     }
+
+    
 }
