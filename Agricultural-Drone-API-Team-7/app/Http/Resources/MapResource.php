@@ -16,11 +16,11 @@ class MapResource extends JsonResource
     {
         return 
         [
-            "id" => $this->id,
+            "drone_name" => $this->drone->name ?? null,
             "image" => $this->image,
             "date" => $this->date,
-            "drone" => $this->drone->name ?? null,
-            "farm_id" => $this->farm->farm_name ?? null,
+            "farm" => new FarmResource($this->farm) ,
+          
         ];
     }
 }

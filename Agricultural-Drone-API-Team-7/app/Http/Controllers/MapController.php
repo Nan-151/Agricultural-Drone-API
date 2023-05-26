@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\MapRequest;
 use App\Http\Resources\MapResource;
+use App\Http\Resources\ShowMapResource;
 use App\Models\Map;
+use App\Models\Province;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MapController extends Controller
 {
@@ -17,11 +20,11 @@ class MapController extends Controller
         //
         $maps = Map::all();
         $maps = MapResource::collection($maps);
-
         return response()->json([
             'message' => 'Successfully',
             'data' => $maps
         ]);
+       
     }
 
     /**
@@ -76,5 +79,36 @@ class MapController extends Controller
     public function destroy(Map $map)
     {
         //
+    }
+
+    public function showMapByDroneName($droneName){
+        $drones = Auth::user()->drone->where('name', $droneName)->first();
+        if(!($drones)){
+            return response()->json([
+                'success'=>false,
+                'message' => 'User does not have this drone name!'
+            ], 401);
+        }
+        $map_list = new ShowMapResource($drones);
+        return $map_list;
+        return response()->json([
+            "success"=> true,
+            'data' => $map_list
+        ],200);
+    }
+
+    public function downloadImage($droneName,$provinceName, $farmId){
+        $drones = Auth::user()->drone->where('name', $droneName)->first();
+        $map= $drones->map->where('farm_id', $farmId)->first();
+        $farm = $map->farm->where('id', $farmId)->first();
+        $province = $farm->province->where('name', $provinceName)->first();
+        if($drones && $map && $farm && $province){
+            return response()->json([
+                "success"=> true,
+                "status"=>"Downloading image...",
+                "data"=> new MapResource($map)
+            ],200);
+
+        }                
     }
 }
