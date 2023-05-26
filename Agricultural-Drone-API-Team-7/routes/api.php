@@ -29,6 +29,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::resource('/drones', DroneController::class);
+    Route::get('/maps/drones/{droneName}', [MapController::class,"showMap"]);
     Route::get('/drones/{droneName}/location/{locationId}', [DroneController::class, 'findDroneLocation']);
     Route::post('/logout', [AuthenticationController::class, 'logout']);
 });

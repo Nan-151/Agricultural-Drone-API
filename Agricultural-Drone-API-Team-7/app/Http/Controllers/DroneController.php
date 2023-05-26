@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DroneRequest;
+use App\Http\Resources\DroneMapResource;
 use App\Http\Resources\DroneResource;
 use App\Http\Resources\LocationResource;
+use App\Http\Resources\MapResource;
 use App\Models\Drone;
 use App\Models\Location;
 use App\Models\User;
@@ -61,7 +63,7 @@ class DroneController extends Controller
         if(!($drone)){
             return response()->json([
                 'success'=>false,
-                'message' => 'User does not have this drone!'
+                'message' => 'User does not have this drone name!'
             ], 401);
         }
         return response()->json([
@@ -95,6 +97,8 @@ class DroneController extends Controller
       
 
     }
+
+
 
     /**
      * Update the specified resource in storage.
