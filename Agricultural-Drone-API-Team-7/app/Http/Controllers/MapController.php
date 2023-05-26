@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\MapRequest;
 use App\Http\Resources\MapResource;
 use App\Http\Resources\ShowMapResource;
+use App\Models\Farm;
 use App\Models\Map;
 use App\Models\Province;
 use Illuminate\Http\Request;
@@ -78,11 +79,11 @@ class MapController extends Controller
      */
     public function destroy(Map $map)
     {
-        //
+        
     }
 
-    public function showMapByDroneName($droneName){
-        $drones = Auth::user()->drone->where('name', $droneName)->first();
+    public function showUserMap(){
+        $drones = Auth::user()->drone->first();
         if(!($drones)){
             return response()->json([
                 'success'=>false,
@@ -97,18 +98,29 @@ class MapController extends Controller
         ],200);
     }
 
-    public function downloadImage($droneName,$provinceName, $farmId){
-        $drones = Auth::user()->drone->where('name', $droneName)->first();
-        $map= $drones->map->where('farm_id', $farmId)->first();
-        $farm = $map->farm->where('id', $farmId)->first();
-        $province = $farm->province->where('name', $provinceName)->first();
-        if($drones && $map && $farm && $province){
-            return response()->json([
+    public function downloadImage($farmId){
+        $drones = Auth::user()->drone->first();
+        $map= $drones->map->where('farm_id',$farmId);
+        $map_list = MapResource::collection($map);
+        return response()->json([
                 "success"=> true,
-                "status"=>"Downloading image...",
-                "data"=> new MapResource($map)
+                "data"=> $map_list
             ],200);
 
-        }                
+                      
     }
+
+    public function deleteImage($farmId){
+        $drones = Auth::user()->drone->first();
+        $maps= $drones->map->where('farm_id', $farmId);
+        foreach ($maps as $map) {
+            $map->delete();
+        }
+        return response()->json([
+                "success"=> true,
+                "status"=>"Images of Farm " . $farmId . " Succesfully deleted",
+        ],200);
+
+    }                
 }
+
