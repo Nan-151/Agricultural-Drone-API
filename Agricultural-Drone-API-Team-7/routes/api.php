@@ -28,6 +28,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/drones/{name}', [DroneController::class, 'commandDrone']);
     Route::resource('/drones', DroneController::class);
     Route::get('/searchDrone',[DroneController::class, "searchDrone"]);
     Route::post('/logout', [AuthenticationController::class, 'logout']);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\InstructionRequest;
 use App\Models\Instruction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class InstructionController extends Controller
 {
@@ -65,4 +66,6 @@ class InstructionController extends Controller
     {
         //
     }
+
+   
 }
