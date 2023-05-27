@@ -22,7 +22,7 @@ class MapController extends Controller
         $maps = Map::all();
         $maps = MapResource::collection($maps);
         return response()->json([
-            'message' => 'Successfully',
+            'message' => 'Get all maps successfully',
             'data' => $maps
         ]);
        
@@ -108,7 +108,7 @@ class MapController extends Controller
 
     public function downloadImage($provinceName,$farmId){
         $farm = Auth::user()->farm->where('id',$farmId)->first();
-        if($farm !=""){
+        if($farm != null){
             if($farm->id == $farmId){
                 $maps = Map::all();
                 $mapList = [];
@@ -128,16 +128,16 @@ class MapController extends Controller
         }
     
         return response()->json([
-            "success"=> true,
-            "status"=>"Farm does not belong to user",
-        ],200);
+            "success"=> false,
+            "message"=>"Sorry Farm does not belong to user",
+        ],203);
                      
     }
 
     public function deleteImage($provinceName,$farmId){
     
         $farm = Auth::user()->farm->where('id',$farmId)->first();
-        if($farm !=""){
+        if($farm != null){
             if($farm->id == $farmId){
                 $maps = Map::all();
                 $mapList = [];
@@ -160,10 +160,54 @@ class MapController extends Controller
         }
     
         return response()->json([
-            "success"=> true,
-            "status"=>"Farm does not belong to user",
-        ],200);
+            "success"=> false,
+            "message"=>"Sorry Farm does not belong to user",
+        ],203);
                  
-    }                
-}
+    }
+    
+    public function storeMapInUniqueFarm(MapRequest $request,$provinceName,$farmId){
+        $farm = Auth::user()->farm->where('id',$farmId)->first();
+        if($farm != null){
+            if($farm->id == $farmId){
+                $province = $farm->province->name;
+                if($province == $provinceName && $farm->id == $farmId){    
+                    $map = Map::create([
+                        "image" => $request -> image,
+                        "date" => $request -> date,
+                        "drone_id" => $request -> drone_id,
+                        "farm_id" =>  $farmId,
+                    ]);
+            
+                    return response()->json([
+                        'message' => 'Create new map successfully',
+                        'data' => $map
+                    ]);
+                  
+                }
+                else{
+                    return response()->json([
+                        "success"=> false,
+                        "message"=>"Invalid Province Name!",
+                    ],202);
 
+                }
+            }
+                
+               
+
+        }
+        return response()->json([
+            "success"=> false,
+            "message"=>"Sorry Farm does not belong to user",
+        ],203);
+    }
+        
+           
+        
+          
+       
+    
+
+
+}

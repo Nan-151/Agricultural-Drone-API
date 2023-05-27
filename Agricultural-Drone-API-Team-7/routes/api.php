@@ -36,6 +36,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/drones/{droneName}/location/{locationId}', [DroneController::class, 'findDroneLocation']);
     Route::get('/maps/province/{provinceName}/farm/{farmId}', [MapController::class,"downloadImage"]);
     Route::delete('/maps/province/{provinceName}/farm/{farmId}', [MapController::class,"deleteImage"]);
+    Route::post('/maps/province/{provinceName}/farm/{farmId}', [MapController::class,"storeMapInUniqueFarm"]);
+
 
     Route::resource('/plans', PlanController::class);
     Route::resource('/farm', FarmController::class);
