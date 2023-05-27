@@ -31,9 +31,9 @@ class Drone extends Model
         return $this -> belongsTo(DroneType::class);
     }
 
-    public function instruction()
+    public function instruction(): HasMany
     {
-        return $this->belongsToMany(Instruction::class, 'instructions');
+        return $this->hasMany(Instruction::class);
     }
 
     public function location():HasMany

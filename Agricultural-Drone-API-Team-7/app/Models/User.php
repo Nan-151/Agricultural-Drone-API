@@ -22,7 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'done_id'
+
     ];
 
     /**
@@ -48,5 +48,7 @@ class User extends Authenticatable
     public function drone():HasMany{
         return $this->hasMany(Drone::class);
     }
-
+    public function plan():HasMany{
+        return $this->hasMany(Plan::class);
+    }
 }

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Plan extends Model
@@ -19,17 +20,16 @@ class Plan extends Model
         "plan_type_id",
         "farm_id",
         "user_id",
-
     ];
 
-    public function instruction()
+    public function instruction(): HasMany
     {
-        return $this->belongsToMany(Instruction::class, 'instructions');
+        return $this->hasMany(Instruction::class);
     }
 
     public function planType():BelongsTo
     {
-        return $this->belongsTo(PlanType::class);
+        return $this->belongsTo(DroneType::class);
     }
 
     public function farm():BelongsTo

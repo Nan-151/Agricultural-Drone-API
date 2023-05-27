@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PlanRequest;
+use App\Http\Resources\PlanResource;
+use App\Http\Resources\ShowPlanResource;
 use App\Models\Plan;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class PlanController extends Controller
@@ -14,6 +17,10 @@ class PlanController extends Controller
     public function index()
     {
         //
+        $plans = Plan::all();
+        $plans = ShowPlanResource::collection($plans);
+
+        return $plans;
     }
 
     /**
@@ -37,13 +44,28 @@ class PlanController extends Controller
             'data' => $plan
         ],200);
     }
+    public function show(){
+
+    }
 
     /**
      * Display the specified resource.
      */
-    public function show(Plan $plan)
+    public function getPlanByName(string $name)
     {
         //
+        $plan = Auth::user()->plan->where('name', $name)->first();
+        $plan = new PlanResource($plan);
+        if(!($plan)){
+            return response()->json([
+                'success'=>false,
+                'message' => 'User does not belong to this plan name!'
+            ], 401);
+        }
+        return response()->json([
+            "success"=> true,
+            'data' => $plan
+        ],200);
     }
 
     /**
