@@ -31,7 +31,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/instruction/drones/{name}', [InstructionController::class, 'commandDrone']);
     Route::get('/updateSystem/drones/{name}', [DroneController::class, 'updateDroneSystem']);
     Route::resource('/drones', DroneController::class);
-    Route::get('/drone/{name}', [DroneController::class, 'showDroneByName']);
+    Route::get('/drone/{droneName}', [DroneController::class, 'showDroneByName']);
     Route::put('/drone/{name}', [DroneController::class, 'updateDronByName']);
     Route::get('/maps', [MapController::class,"showUserMap"]);
     Route::get('/drones/{droneName}/location/{locationId}', [DroneController::class, 'findDroneLocation']);

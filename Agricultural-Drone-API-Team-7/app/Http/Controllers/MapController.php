@@ -4,11 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\MapRequest;
 use App\Http\Resources\MapResource;
-use App\Http\Resources\ShowMapResource;
-use App\Models\Farm;
 use App\Models\Map;
-use App\Models\Province;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class MapController extends Controller
@@ -108,7 +104,7 @@ class MapController extends Controller
         ],200);
     }
 
-    public function downloadImage(string $provinceName, string $farmId)
+    public function downloadImage(string $provinceName, int $farmId)
     {
         $farm = Auth::user()->farm->where('id',$farmId)->first();
         if($farm != null)
@@ -141,7 +137,7 @@ class MapController extends Controller
                      
     }
 
-    public function deleteImage(string $provinceName, string $farmId)
+    public function deleteImage(string $provinceName, int $farmId)
     {
     
         $farm = Auth::user()->farm->where('id',$farmId)->first();
@@ -176,7 +172,8 @@ class MapController extends Controller
         ],203);
                  
     }
-    public function storeMapInUniqueFarm(MapRequest $request,$provinceName, string $farmId){
+    public function storeMapInUniqueFarm(MapRequest $request,$provinceName, int $farmId)
+    {
         $farm = Auth::user()->farm->where('id',$farmId)->first();
         if($farm != null){
             if($farm->id == $farmId)

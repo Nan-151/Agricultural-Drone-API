@@ -9,6 +9,7 @@ use App\Http\Resources\DroneMapResource;
 use App\Http\Resources\DroneResource;
 use App\Http\Resources\LocationResource;
 use App\Http\Resources\MapResource;
+use App\Http\Resources\ShowLocationResource;
 use App\Models\Drone;
 use App\Models\Instruction;
 use App\Models\Location;
@@ -59,13 +60,13 @@ class DroneController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(){
+    public function show(Request $request){
 
     }
+
     public function showDroneByName(string $droneName)
     {
         $drone = Auth::user()->drone->where('name', $droneName)->first();
-        $showDrone= new DroneResource($drone);
         if(!($drone)){
             return response()->json([
                 'success'=>false,
@@ -74,12 +75,13 @@ class DroneController extends Controller
         }
         return response()->json([
             "success"=> true,
-            'data' => $showDrone
+            'data' => new DroneResource($drone)
         ],200);
 
     }
 
-    public function findDroneLocation($droneName, $locationId){
+    public function findDroneLocation(string $droneName, int $locationId)
+    {
         $drone = Auth::user()->drone->where('name', $droneName)->first();
         if(!($drone)){
             return response()->json([
@@ -89,8 +91,8 @@ class DroneController extends Controller
         }
         
         $location = $drone->location()->where('id', $locationId)->first();
-        $droneLocation = new LocationResource($location);
-        if(!($location)){
+        if(!($location))
+        {
             return response()->json([
                 'success'=>false,
                 'message' => 'This drone does not at this location!'
@@ -98,7 +100,7 @@ class DroneController extends Controller
         }
         return response()->json([
             "success"=> true,
-            'data' => $droneLocation
+            'data' => new ShowLocationResource($location)
         ],200);
       
 

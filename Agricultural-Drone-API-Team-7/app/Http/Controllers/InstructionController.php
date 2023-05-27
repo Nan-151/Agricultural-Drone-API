@@ -89,7 +89,6 @@ class InstructionController extends Controller
                         'status' => $request->status,
                         'plan_id' => $request->plan_id,
                     ]);
-    
                     return response()->json([
                         "message" => "Update instruction of drone id: " . $droneId . " sucessfully.",
                         "data" => $instruction

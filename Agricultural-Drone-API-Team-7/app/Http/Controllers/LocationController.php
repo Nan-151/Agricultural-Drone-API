@@ -17,8 +17,6 @@ class LocationController extends Controller
     {
         //
         $locations = Location::all();
-        $locations = LocationResource::collection($locations);
-
         return response()->json([
             'message' => 'Successfully',
             'data' => $locations
@@ -41,7 +39,6 @@ class LocationController extends Controller
             'data' => $location
         ]);
     }
-
     /**
      * Display the specified resource.
      */
