@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CommandDroneRequest;
 use App\Http\Requests\InstructionRequest;
 use App\Http\Resources\InstructionResource;
 use App\Models\Instruction;
@@ -75,5 +76,28 @@ class InstructionController extends Controller
         //
     }
 
-   
+    public function commandDrone(CommandDroneRequest $request, $droneName)
+    {
+        $droneId = Auth::user()->drone->where('name', $droneName)->first();
+        if($droneId != null){
+            $instructions = Instruction::all();
+            foreach ($instructions as $instruction){
+                if($instruction->drone_id == $droneId){
+                    $instruction->update([
+                        'status' => $request->status,
+                        'plan_id' => $request->plan_id,
+                    ]);
+    
+                    return response()->json([
+                        "message" => "Update instruction of drone id: " . $droneId . " sucessfully.",
+                        "data" => $instruction
+                    ], 201);
+                }
+            }
+        }
+        return response()->json([
+            "success" => false,
+            "message" => "Sorry, Drone drone does not belong to the user.",
+        ], 203);  
+    }  
 }
