@@ -22,6 +22,7 @@ class DroneResource extends JsonResource
             "max_speed" => $this->max_speed,
             "payload" => $this->payload,
             "droneType" => $this-> droneType->drone_type ?? null,
+            "location" => ShowLocationResource::collection($this->location),
         ];
     }
 }
