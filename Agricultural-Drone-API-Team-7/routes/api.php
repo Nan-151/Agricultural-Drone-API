@@ -50,4 +50,5 @@ Route::resource('/instruction', InstructionController::class);
 Route::resource('/province', ProvinceController::class);
 Route::resource('/map', MapController::class);
 Route::resource('/location', LocationController::class);
+// Route::resource('/plans', PlanController::class);
 

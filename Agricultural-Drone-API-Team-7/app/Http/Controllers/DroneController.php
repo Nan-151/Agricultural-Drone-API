@@ -134,19 +134,4 @@ class DroneController extends Controller
         //
         
     }
-    public function commandDrone($name)
-    {
-        $drone = Auth::user()->drone->where('name', $name)->first();
-        $instruction = $drone->map->where("drone_id", 3)->first();
-        // ->update([
-        //     "status" => $request->status,
-        //     "plan_id" => $request->plan_id,
-        // ]);
-        // $drone->instruction;
-        return response()->json([
-            "success"=> true,
-            'data' => "Heloo"
-        ],200);
-        
-    }
 }
