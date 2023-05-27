@@ -38,8 +38,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/maps/province/{provinceName}/farm/{farmId}', [MapController::class,"downloadImage"]);
     Route::delete('/maps/province/{provinceName}/farm/{farmId}', [MapController::class,"deleteImage"]);
     Route::post('/maps/province/{provinceName}/farm/{farmId}', [MapController::class,"storeMapInUniqueFarm"]);
-
-
     Route::resource('/plans', PlanController::class);
     Route::resource('/farm', FarmController::class);
     Route::post('/logout', [AuthenticationController::class, 'logout']);
@@ -49,7 +47,7 @@ Route::post('/register', [AuthenticationController::class, 'register']);
 Route::post('/login', [AuthenticationController::class, 'login']);
 Route::resource('/user', UserController::class);
 Route::resource('/droneType', DroneTypeController::class);
-Route::resource('/instruction', InstructionController::class);
+Route::resource('/instructions', InstructionController::class);
 
 Route::resource('/province', ProvinceController::class);
 Route::resource('/map', MapController::class);
