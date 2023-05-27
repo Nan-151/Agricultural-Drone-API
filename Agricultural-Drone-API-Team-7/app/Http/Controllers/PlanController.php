@@ -8,7 +8,7 @@ use App\Http\Resources\ShowPlanResource;
 use App\Models\Plan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+
 
 class PlanController extends Controller
 {
