@@ -83,24 +83,44 @@ class MapController extends Controller
     }
 
     public function showUserMap(){
-        $drones = Auth::user()->drone->first();
-        if(!($drones)){
-            return response()->json([
-                'success'=>false,
-                'message' => 'User does not have this drone name!'
-            ], 401);
+
+        $drones = Auth::user()->drone;
+
+        $maps = [];
+        foreach($drones as $drone){
+            array_push($maps, $drone->map);
         }
-        $map_list = new ShowMapResource($drones);
-        return $map_list;
+    
+        $mapOfAllDrone = [];
+        foreach($maps as $map){
+            foreach($map as $item){
+                $map_list = new MapResource($item);
+                array_push($mapOfAllDrone, $map_list);
+        
+            }
+        }
         return response()->json([
             "success"=> true,
-            'data' => $map_list
+            "status"=>"Get all maps of each drone's user",
+            'data' => $mapOfAllDrone
         ],200);
     }
 
-    public function downloadImage($farmId){
-        $drones = Auth::user()->drone->first();
-        $map= $drones->map->where('farm_id',$farmId);
+    public function downloadImage($droneName,$provinceName,$farmId){
+        $drones = Auth::user()->drone;
+        // return $drones;
+        $map = [];
+        foreach($drones as $drone){
+            array_push($map, $drone->map);
+        }
+        return $map;
+        $map= $drones->map->where;
+        return $map;
+        $map_list = new ShowMapResource($map);
+
+        return $map_list;
+        // $province = $map->farm->where('id',$farmId);
+        // return $province;
         $map_list = MapResource::collection($map);
         return response()->json([
                 "success"=> true,

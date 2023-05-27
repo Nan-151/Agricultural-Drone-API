@@ -22,7 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'done_id'
+        'drone_id'
     ];
 
     /**

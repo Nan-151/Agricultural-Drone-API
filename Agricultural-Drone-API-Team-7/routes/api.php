@@ -30,9 +30,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/drones/{name}', [DroneController::class, 'commandDrone']);
     Route::resource('/drones', DroneController::class);
+    Route::put('/drones/{name}', [DroneController::class, 'update']);
     Route::get('/maps', [MapController::class,"showUserMap"]);
     Route::get('/drones/{droneName}/location/{locationId}', [DroneController::class, 'findDroneLocation']);
-    Route::get('/maps/farm/{farmId}', [MapController::class,"downloadImage"]);
+    Route::get('/maps/province/{provinceName}/farm/{farmId}', [MapController::class,"downloadImage"]);
     Route::delete('/maps/farm/{farmId}', [MapController::class,"deleteImage"]);
 
     Route::resource('/plans', PlanController::class);
