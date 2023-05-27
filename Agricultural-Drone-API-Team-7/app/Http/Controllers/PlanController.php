@@ -72,7 +72,7 @@ class PlanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(PlanRequest $request, $id)
+    public function update(PlanRequest $request,string $id)
     {
         $plan = Plan::find($id)->update([
             "name" => $request->name,

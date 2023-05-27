@@ -54,7 +54,7 @@ class InstructionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(InstructionRequest $request, $id)
+    public function update(InstructionRequest $request, string $id)
     {
         $instruction = Instruction::find($id)->update([
             "status" => $request->status,
@@ -76,13 +76,15 @@ class InstructionController extends Controller
         //
     }
 
-    public function commandDrone(CommandDroneRequest $request, $droneName)
+    public function commandDrone(CommandDroneRequest $request, string $droneName)
     {
         $droneId = Auth::user()->drone->where('name', $droneName)->first();
         if($droneId != null){
             $instructions = Instruction::all();
-            foreach ($instructions as $instruction){
-                if($instruction->drone_id == $droneId){
+            foreach ($instructions as $instruction)
+            {
+                if($instruction->drone_id == $droneId)
+                {
                     $instruction->update([
                         'status' => $request->status,
                         'plan_id' => $request->plan_id,

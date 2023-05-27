@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CommandDroneRequest;
 use App\Http\Requests\DroneRequest;
+use App\Http\Requests\UpdateDroneRequest;
 use App\Http\Resources\DroneMapResource;
 use App\Http\Resources\DroneResource;
 use App\Http\Resources\LocationResource;
@@ -58,10 +59,13 @@ class DroneController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($droneName)
+    public function show(){
+
+    }
+    public function showDroneByName(string $droneName)
     {
         $drone = Auth::user()->drone->where('name', $droneName)->first();
-        $show_drone= new DroneResource($drone);
+        $showDrone= new DroneResource($drone);
         if(!($drone)){
             return response()->json([
                 'success'=>false,
@@ -70,7 +74,7 @@ class DroneController extends Controller
         }
         return response()->json([
             "success"=> true,
-            'data' => $show_drone
+            'data' => $showDrone
         ],200);
 
     }
@@ -85,7 +89,7 @@ class DroneController extends Controller
         }
         
         $location = $drone->location()->where('id', $locationId)->first();
-        $drone_location = new LocationResource($location);
+        $droneLocation = new LocationResource($location);
         if(!($location)){
             return response()->json([
                 'success'=>false,
@@ -94,7 +98,7 @@ class DroneController extends Controller
         }
         return response()->json([
             "success"=> true,
-            'data' => $drone_location
+            'data' => $droneLocation
         ],200);
       
 
@@ -133,5 +137,23 @@ class DroneController extends Controller
     {
         //
         
+    }
+
+    public function updateDronByName(UpdateDroneRequest $request, $name)
+    {
+        $drone = Drone::where("name", $name)->update([
+            "battery"=> $request->battery,
+            "max_altitude"=> $request->max_altitude,
+            "max_range" => $request->max_range,
+            "max_speed" => $request->max_speed,
+            "payload" => $request->payload,
+        ]);
+
+        return response()->json([
+            "success"=> true,
+            "message"=>"Update Drone successfull",
+            'data' => $drone
+        ],200);
+       
     }
 }

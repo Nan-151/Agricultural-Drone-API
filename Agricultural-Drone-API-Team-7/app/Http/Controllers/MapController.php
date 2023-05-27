@@ -58,7 +58,7 @@ class MapController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(MapRequest $request,  $id)
+    public function update(MapRequest $request, string $id)
     {
         //
         $map = Map::find($id)->update([
@@ -82,21 +82,23 @@ class MapController extends Controller
         
     }
 
-    public function showUserMap(){
-
+    public function showUserMap()
+    {
         $drones = Auth::user()->drone;
 
         $maps = [];
-        foreach($drones as $drone){
+        foreach($drones as $drone)
+        {
             array_push($maps, $drone->map);
         }
     
         $mapOfAllDrone = [];
-        foreach($maps as $map){
-            foreach($map as $item){
+        foreach($maps as $map)
+        {
+            foreach($map as $item)
+            {
                 $map_list = new MapResource($item);
                 array_push($mapOfAllDrone, $map_list);
-        
             }
         }
         return response()->json([
@@ -106,16 +108,21 @@ class MapController extends Controller
         ],200);
     }
 
-    public function downloadImage($provinceName,$farmId){
+    public function downloadImage(string $provinceName, string $farmId)
+    {
         $farm = Auth::user()->farm->where('id',$farmId)->first();
-        if($farm != null){
-            if($farm->id == $farmId){
+        if($farm != null)
+        {
+            if($farm->id == $farmId)
+            {
                 $maps = Map::all();
                 $mapList = [];
-                foreach($maps as $map){
+                foreach($maps as $map)
+                {
                     $farms = $map->farm;
                     $province= $farms->province;
-                    if($farms->id == $farmId && $province->name == $provinceName){
+                    if($farms->id == $farmId && $province->name == $provinceName)
+                    {
                         array_push($mapList, $map);
                     }
                 }
@@ -134,21 +141,25 @@ class MapController extends Controller
                      
     }
 
-    public function deleteImage($provinceName,$farmId){
+    public function deleteImage(string $provinceName, string $farmId)
+    {
     
         $farm = Auth::user()->farm->where('id',$farmId)->first();
         if($farm != null){
-            if($farm->id == $farmId){
+            if($farm->id == $farmId)
+            {
                 $maps = Map::all();
                 $mapList = [];
-                foreach($maps as $map){
+                foreach($maps as $map)
+                {
                     $farms = $map->farm;
                     $province= $farms->province;
                     if($farms->id == $farmId && $province->name == $provinceName){
                         array_push($mapList, $map);
                     }
                 }
-                foreach ($mapList as $map) {
+                foreach ($mapList as $map) 
+                {
                     $map->delete();
                 }
                 return response()->json([
@@ -165,13 +176,14 @@ class MapController extends Controller
         ],203);
                  
     }
-    
-    public function storeMapInUniqueFarm(MapRequest $request,$provinceName,$farmId){
+    public function storeMapInUniqueFarm(MapRequest $request,$provinceName, string $farmId){
         $farm = Auth::user()->farm->where('id',$farmId)->first();
         if($farm != null){
-            if($farm->id == $farmId){
+            if($farm->id == $farmId)
+            {
                 $province = $farm->province->name;
-                if($province == $provinceName && $farm->id == $farmId){    
+                if($province == $provinceName && $farm->id == $farmId)
+                {    
                     $map = Map::create([
                         "image" => $request -> image,
                         "date" => $request -> date,
@@ -193,9 +205,6 @@ class MapController extends Controller
 
                 }
             }
-                
-               
-
         }
         return response()->json([
             "success"=> false,

@@ -44,7 +44,7 @@ class FarmController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(FarmRequest $request, $id)
+    public function update(FarmRequest $request, string $id)
     {
         $farm = Farm::find($id)->update([
             "farm_name"=>$request->farm_name,

@@ -54,7 +54,7 @@ class LocationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(LocationRequest $request, $id)
+    public function update(LocationRequest $request, string $id)
     {
         $location = Location::find($id)->update([
             "longitude" => $request -> longitude,
