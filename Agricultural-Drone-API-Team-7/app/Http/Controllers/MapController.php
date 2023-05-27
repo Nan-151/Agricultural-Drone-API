@@ -107,25 +107,41 @@ class MapController extends Controller
     }
 
     public function downloadImage($droneName,$provinceName,$farmId){
-        $drones = Auth::user()->drone;
-        // return $drones;
-        $map = [];
-        foreach($drones as $drone){
-            array_push($map, $drone->map);
+        $drones = Auth::user()->drone->where('name', $droneName)->first();
+        if(!($drones)){
+            return response()->json([
+                'success'=>false,
+                'message' => 'User does not have this drone name!'
+            ], 401);
         }
-        return $map;
-        $map= $drones->map->where;
-        return $map;
-        $map_list = new ShowMapResource($map);
 
-        return $map_list;
-        // $province = $map->farm->where('id',$farmId);
-        // return $province;
-        $map_list = MapResource::collection($map);
-        return response()->json([
+        $mapList = $drones->map->where('farm_id', $farmId);
+        $map = $mapList->first();
+        
+        if(!($map)){
+            return response()->json([
+                'success'=>false,
+                'message' => 'Map does not belong to this Farm!'
+            ], 401);
+        }
+
+        $farm = $map->farm->where('id', $farmId)->first();
+        $province = $farm->province->where('name', $provinceName)->first();
+        if(!($province)){
+            return response()->json([
+                'success'=>false,
+                'message' => 'Farm does not belong to this Province!'
+            ], 401);
+        }
+      
+        if($drones && $mapList && $farm && $province){
+            return response()->json([
                 "success"=> true,
-                "data"=> $map_list
+                "data"=> MapResource::collection($mapList)
             ],200);
+
+        }
+     
 
                       
     }
