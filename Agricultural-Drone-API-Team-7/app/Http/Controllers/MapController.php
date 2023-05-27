@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\MapRequest;
 use App\Http\Resources\MapResource;
 use App\Http\Resources\ShowMapResource;
+use App\Models\Farm;
 use App\Models\Map;
 use App\Models\Province;
 use Illuminate\Http\Request;
@@ -78,10 +79,34 @@ class MapController extends Controller
      */
     public function destroy(Map $map)
     {
-        //
+        
     }
 
-    public function showMapByDroneName($droneName){
+    public function showUserMap(){
+
+        $drones = Auth::user()->drone;
+
+        $maps = [];
+        foreach($drones as $drone){
+            array_push($maps, $drone->map);
+        }
+    
+        $mapOfAllDrone = [];
+        foreach($maps as $map){
+            foreach($map as $item){
+                $map_list = new MapResource($item);
+                array_push($mapOfAllDrone, $map_list);
+        
+            }
+        }
+        return response()->json([
+            "success"=> true,
+            "status"=>"Get all maps of each drone's user",
+            'data' => $mapOfAllDrone
+        ],200);
+    }
+
+    public function downloadImage($droneName,$provinceName,$farmId){
         $drones = Auth::user()->drone->where('name', $droneName)->first();
         if(!($drones)){
             return response()->json([
@@ -89,26 +114,71 @@ class MapController extends Controller
                 'message' => 'User does not have this drone name!'
             ], 401);
         }
-        $map_list = new ShowMapResource($drones);
-        return $map_list;
-        return response()->json([
-            "success"=> true,
-            'data' => $map_list
-        ],200);
-    }
 
-    public function downloadImage($droneName,$provinceName, $farmId){
-        $drones = Auth::user()->drone->where('name', $droneName)->first();
-        $map= $drones->map->where('farm_id', $farmId)->first();
+        $mapList = $drones->map->where('farm_id', $farmId);
+        $map = $mapList->first();
+
+        if(!($map)){
+            return response()->json([
+                'success'=>false,
+                'message' => 'Map does not belong to this Farm!'
+            ], 401);
+        }
+
         $farm = $map->farm->where('id', $farmId)->first();
         $province = $farm->province->where('name', $provinceName)->first();
-        if($drones && $map && $farm && $province){
+        if(!($province)){
+            return response()->json([
+                'success'=>false,
+                'message' => 'Farm does not belong to this Province!'
+            ], 401);
+        }
+      
+        if($drones && $mapList && $farm && $province){
             return response()->json([
                 "success"=> true,
-                "status"=>"Downloading image...",
-                "data"=> new MapResource($map)
+                "status"=>"Downloaded imges successfully",
+                "data"=> MapResource::collection($mapList)
             ],200);
 
         }                
     }
+
+    public function deleteImage($droneName,$provinceName,$farmId){
+        $drones = Auth::user()->drone->where('name', $droneName)->first();
+        if(!($drones)){
+            return response()->json([
+                'success'=>false,
+                'message' => 'User does not have this drone name!'
+            ], 401);
+        }
+
+        $mapList = $drones->map->where('farm_id', $farmId);
+        $map = $mapList->first();
+
+        if(!($map)){
+            return response()->json([
+                'success'=>false,
+                'message' => 'Map does not belong to this Farm!'
+            ], 401);
+        }
+
+        $farm = $map->farm->where('id', $farmId)->first();
+        $province = $farm->province->where('name', $provinceName)->first();
+        if(!($province)){
+            return response()->json([
+                'success'=>false,
+                'message' => 'Farm does not belong to this Province!'
+            ], 401);
+        }
+        foreach ($mapList as $map) {
+                $map->delete();
+        }
+        return response()->json([
+                "success"=> true,
+                "status"=>"Images of Farm " . $farmId . " Succesfully deleted",
+        ],200);
+
+    }                
 }
+
