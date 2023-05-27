@@ -12,11 +12,17 @@ class Farm extends Model
     use HasFactory;
     protected $fillable =[
         "farm_name",
-        "province_id"
+        "province_id",
+        "user_id",
     ];
     public function province():BelongsTo
     {
         return $this->belongsTo(Province::class);
+    }
+
+    public function user():BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function map():HasMany

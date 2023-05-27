@@ -33,11 +33,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/drones/{name}', [DroneController::class, 'update']);
     Route::get('/maps', [MapController::class,"showUserMap"]);
     Route::get('/drones/{droneName}/location/{locationId}', [DroneController::class, 'findDroneLocation']);
-    Route::get('/maps/drones/{droneName}/province/{provinceName}/farm/{farmId}', [MapController::class,"downloadImage"]);
-    Route::delete('/maps/drones/{droneName}/province/{provinceName}/farm/{farmId}', [MapController::class,"deleteImage"]);
+    Route::get('/maps/province/{provinceName}/farm/{farmId}', [MapController::class,"downloadImage"]);
+    Route::delete('/maps/province/{provinceName}/farm/{farmId}', [MapController::class,"deleteImage"]);
 
     Route::resource('/plans', PlanController::class);
-
+    Route::resource('/farm', FarmController::class);
     Route::post('/logout', [AuthenticationController::class, 'logout']);
 });
 
@@ -46,7 +46,7 @@ Route::post('/login', [AuthenticationController::class, 'login']);
 Route::resource('/user', UserController::class);
 Route::resource('/droneType', DroneTypeController::class);
 Route::resource('/instruction', InstructionController::class);
-Route::resource('/farm', FarmController::class);
+
 Route::resource('/province', ProvinceController::class);
 Route::resource('/map', MapController::class);
 Route::resource('/location', LocationController::class);

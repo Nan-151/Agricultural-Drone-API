@@ -31,7 +31,8 @@ class FarmRequest extends FormRequest
     {
         return [
             "farm_name"=> "required|max:500",
-            "province_id"=> "required"
+            "province_id"=> "required",
+            "user_id"=> "required"
         ];
     }
 }

@@ -106,79 +106,64 @@ class MapController extends Controller
         ],200);
     }
 
-    public function downloadImage($droneName,$provinceName,$farmId){
-        $drones = Auth::user()->drone->where('name', $droneName)->first();
-        if(!($drones)){
-            return response()->json([
-                'success'=>false,
-                'message' => 'User does not have this drone name!'
-            ], 401);
+    public function downloadImage($provinceName,$farmId){
+        $farm = Auth::user()->farm->where('id',$farmId)->first();
+        if($farm !=""){
+            if($farm->id == $farmId){
+                $maps = Map::all();
+                $mapList = [];
+                foreach($maps as $map){
+                    $farms = $map->farm;
+                    $province= $farms->province;
+                    if($farms->id == $farmId && $province->name == $provinceName){
+                        array_push($mapList, $map);
+                    }
+                }
+                return response()->json([
+                    "success"=> true,
+                    "data"=> MapResource::collection($mapList)
+                ],200);
+
         }
-
-        $mapList = $drones->map->where('farm_id', $farmId);
-        $map = $mapList->first();
-
-        if(!($map)){
-            return response()->json([
-                'success'=>false,
-                'message' => 'Map does not belong to this Farm!'
-            ], 401);
         }
-
-        $farm = $map->farm->where('id', $farmId)->first();
-        $province = $farm->province->where('name', $provinceName)->first();
-        if(!($province)){
-            return response()->json([
-                'success'=>false,
-                'message' => 'Farm does not belong to this Province!'
-            ], 401);
-        }
-      
-        if($drones && $mapList && $farm && $province){
-            return response()->json([
-                "success"=> true,
-                "status"=>"Downloaded imges successfully",
-                "data"=> MapResource::collection($mapList)
-            ],200);
-
-        }                
+    
+        return response()->json([
+            "success"=> true,
+            "status"=>"Farm does not belong to user",
+        ],200);
+                     
     }
 
-    public function deleteImage($droneName,$provinceName,$farmId){
-        $drones = Auth::user()->drone->where('name', $droneName)->first();
-        if(!($drones)){
-            return response()->json([
-                'success'=>false,
-                'message' => 'User does not have this drone name!'
-            ], 401);
-        }
+    public function deleteImage($provinceName,$farmId){
+    
+        $farm = Auth::user()->farm->where('id',$farmId)->first();
+        if($farm !=""){
+            if($farm->id == $farmId){
+                $maps = Map::all();
+                $mapList = [];
+                foreach($maps as $map){
+                    $farms = $map->farm;
+                    $province= $farms->province;
+                    if($farms->id == $farmId && $province->name == $provinceName){
+                        array_push($mapList, $map);
+                    }
+                }
+                foreach ($mapList as $map) {
+                    $map->delete();
+                }
+                return response()->json([
+                        "success"=> true,
+                        "status"=>"Images of Farm " . $farmId . " Succesfully deleted",
+                ],200);
 
-        $mapList = $drones->map->where('farm_id', $farmId);
-        $map = $mapList->first();
-
-        if(!($map)){
-            return response()->json([
-                'success'=>false,
-                'message' => 'Map does not belong to this Farm!'
-            ], 401);
+            }
         }
-
-        $farm = $map->farm->where('id', $farmId)->first();
-        $province = $farm->province->where('name', $provinceName)->first();
-        if(!($province)){
-            return response()->json([
-                'success'=>false,
-                'message' => 'Farm does not belong to this Province!'
-            ], 401);
-        }
-        foreach ($mapList as $map) {
-                $map->delete();
-        }
+    
         return response()->json([
-                "success"=> true,
-                "status"=>"Images of Farm " . $farmId . " Succesfully deleted",
+            "success"=> true,
+            "status"=>"Farm does not belong to user",
         ],200);
-
+                 
     }                
 }
 

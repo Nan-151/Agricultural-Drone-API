@@ -53,4 +53,8 @@ class User extends Authenticatable
         return $this->hasMany(Plan::class);
     }
 
+    public function farm():HasMany{
+        return $this->hasMany(Farm::class);
+    }
+
 }

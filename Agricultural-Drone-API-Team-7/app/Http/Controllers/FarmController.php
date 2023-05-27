@@ -23,7 +23,8 @@ class FarmController extends Controller
     {
         $farm = Farm::create([
             "farm_name"=>$request->farm_name,
-            "province_id"=>$request->province_id
+            "province_id"=>$request->province_id,
+            "user_id"=>$request->user_id
         ]);
         return response()->json([
             "success"=> true,
@@ -47,7 +48,8 @@ class FarmController extends Controller
     {
         $farm = Farm::find($id)->update([
             "farm_name"=>$request->farm_name,
-            "province_id"=>$request->province_id
+            "province_id"=>$request->province_id,
+            "user_id"=>$request->user_id
         ]);
         return response()->json([
             "success"=> true,
