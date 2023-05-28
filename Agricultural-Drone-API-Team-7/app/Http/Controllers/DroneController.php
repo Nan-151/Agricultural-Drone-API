@@ -23,6 +23,7 @@ class DroneController extends Controller
         $drone = DroneResource::collection($drone);
         return response()->json([
             "success"=> true,
+            "message"=>"Get all Drones Successfully",
             'data' => $drone
         ],200);
 

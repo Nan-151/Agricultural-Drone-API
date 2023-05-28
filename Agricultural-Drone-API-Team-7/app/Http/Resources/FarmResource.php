@@ -16,6 +16,7 @@ class FarmResource extends JsonResource
     {
         return 
         [
+            'id'=> $this->id,
             'farm_name' => $this->farm_name,
             'province' => new ProvinceResource($this->province),
         ];

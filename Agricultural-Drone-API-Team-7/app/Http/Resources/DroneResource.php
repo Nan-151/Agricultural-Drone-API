@@ -21,7 +21,7 @@ class DroneResource extends JsonResource
             "max_range" => $this->max_range,
             "max_speed" => $this->max_speed,
             "payload" => $this->payload,
-            "droneType" => $this-> droneType->drone_type ?? null,
+            "drone_type" => $this-> droneType->drone_type ?? null,
         ];
     }
 }
