@@ -54,9 +54,7 @@ class PlanController extends Controller
      */
     public function getPlanByName(string $name)
     {
-        //
         $plan = Auth::user()->plan->where('name', $name)->first();
-        $plan = new PlanResource($plan);
         if(!($plan)){
             return response()->json([
                 'success'=>false,
@@ -65,7 +63,7 @@ class PlanController extends Controller
         }
         return response()->json([
             "success"=> true,
-            'data' => $plan
+            'data' => new PlanResource($plan)
         ],200);
     }
 

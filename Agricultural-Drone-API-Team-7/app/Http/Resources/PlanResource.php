@@ -16,11 +16,14 @@ class PlanResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'name'=>$this->name,
             'date' => $this->date,
             'time' => $this->time,
             'area' => $this->area,
             'plan_type' => $this->planType->drone_type,
             'farm' => new FarmResource($this->farm),
+            'user'=> new UserResource($this->user),
+            
         ];
     }
 }

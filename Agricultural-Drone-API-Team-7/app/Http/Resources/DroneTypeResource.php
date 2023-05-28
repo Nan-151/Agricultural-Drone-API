@@ -16,8 +16,8 @@ class DroneTypeResource extends JsonResource
     {
         return 
         [
-            'id'=>$this->id,
-            'drone_type'=>$this->drone_type,
+          
+            'type'=>$this->drone_type,
         ];
     }
 }

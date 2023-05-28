@@ -91,10 +91,10 @@ class MapController extends Controller
         $mapOfAllDrone = [];
         foreach($maps as $map)
         {
-            foreach($map as $item)
+            foreach($map as $image)
             {
-                $map_list = new MapResource($item);
-                array_push($mapOfAllDrone, $map_list);
+                $mapList = new MapResource($image);
+                array_push($mapOfAllDrone, $mapList);
             }
         }
         return response()->json([

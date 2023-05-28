@@ -2,18 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CommandDroneRequest;
+
 use App\Http\Requests\DroneRequest;
 use App\Http\Requests\UpdateDroneRequest;
-use App\Http\Resources\DroneMapResource;
 use App\Http\Resources\DroneResource;
-use App\Http\Resources\LocationResource;
-use App\Http\Resources\MapResource;
+use App\Http\Resources\InstructionResource;
 use App\Http\Resources\ShowLocationResource;
 use App\Models\Drone;
-use App\Models\Instruction;
-use App\Models\Location;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -32,7 +27,6 @@ class DroneController extends Controller
         ],200);
 
     }
-
     /**
      * Store a newly created resource in storage.
      */
@@ -70,7 +64,7 @@ class DroneController extends Controller
         if(!($drone)){
             return response()->json([
                 'success'=>false,
-                'message' => 'User does not have this drone name!'
+                'message' => 'User does not has this drone name!'
             ], 401);
         }
         return response()->json([
@@ -86,7 +80,7 @@ class DroneController extends Controller
         if(!($drone)){
             return response()->json([
                 'success'=>false,
-                'message' => 'User does not have this drone!'
+                'message' => 'User does not has this drone!'
             ], 401);
         }
         
@@ -105,13 +99,10 @@ class DroneController extends Controller
       
 
     }
-
-
-
     /**
      * Update the specified resource in storage.
      */
-    public function update(DroneRequest $request, $id)
+    public function update(DroneRequest $request, string $id)
     {
         $drone = Drone::find($id)->update([
             "name" => $request->name,
@@ -141,7 +132,7 @@ class DroneController extends Controller
         
     }
 
-    public function updateDronByName(UpdateDroneRequest $request, $name)
+    public function updateDroneByName(UpdateDroneRequest $request, string $name)
     {
         $drone = Drone::where("name", $name)->update([
             "battery"=> $request->battery,
@@ -156,6 +147,34 @@ class DroneController extends Controller
             "message"=>"Update Drone successfull",
             'data' => $drone
         ],200);
+       
+    }
+    public function findDroneInstructions(){
+        $drones = Auth::user()->drone;
+        $listOfinstruction = [];
+        foreach($drones as $drone){
+            $instructions = $drone->instruction;
+            foreach($instructions as $instruction){
+                $newInstruction = new InstructionResource($instruction);
+                array_push($listOfinstruction , $newInstruction);
+            }
+        }
+        if($listOfinstruction == []){
+            return response()->json([
+                "success"=> true,
+                "message"=>"Drone does not has instructions yet!",
+            ],200);
+        }
+
+        return response()->json([
+            "success"=> true,
+            "message"=>"Get instructions successfull",
+            'data' => $listOfinstruction 
+        ],200);
+        
+        
+       
+     
        
     }
 }
